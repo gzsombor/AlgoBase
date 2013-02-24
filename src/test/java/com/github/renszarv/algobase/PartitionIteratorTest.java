@@ -1,6 +1,6 @@
 package com.github.renszarv.algobase;
 
-import static org.junit.Assert.*;
+import java.util.Iterator;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,7 +15,6 @@ public class PartitionIteratorTest {
 		check(p, 3);
 	}
 
-	
 	@Test
 	public void testPartitionOf5() {
 		PartitionIterator p = new PartitionIterator(5);
@@ -26,22 +25,26 @@ public class PartitionIteratorTest {
 		check(p, 1, 4);
 		check(p, 2, 3);
 		check(p, 5);
-		
 	}
-	
-	
-	void check(PartitionIterator p, int... expected) {
-		StringBuilder lb = new StringBuilder ();
-		for (int i=0;i<expected.length;i++) {
-			if (i>0) {
-				lb.append(" + ");
-			}
-			lb.append(expected[i]);
-		}
-		String label = lb.toString();
+
+	public static void check(Iterator<int[]> p, int... expected) {
+		String label = pretty(expected);
 		Assert.assertTrue("has " + label, p.hasNext());
 		int[] actual = p.next();
+		Assert.assertEquals(label, pretty(actual));
 		Assert.assertArrayEquals(label, expected, actual);
+	}
+
+	public static String pretty(int[] array) {
+		StringBuilder lb = new StringBuilder("(");
+		for (int i = 0; i < array.length; i++) {
+			if (i > 0) {
+				lb.append(",");
+			}
+			lb.append(array[i]);
+		}
+		return lb.append(')').toString();
+
 	}
 
 }
