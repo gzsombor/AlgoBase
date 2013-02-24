@@ -50,11 +50,7 @@ public class FactorialIterator implements Iterator<int[]> {
 	 * @param result
 	 */
 	public void getTheNext(int[] result) {
-		if (result.length != size) {
-			throw new IllegalArgumentException(
-					"expected an array with a length of " + size
-							+ ", received : " + result.length);
-		}
+		Utils.validateArrayLength(size, result);		
 		convertInto(result);
 	}
 
