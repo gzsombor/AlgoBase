@@ -17,4 +17,10 @@ public class FactorialTest {
 		assertEquals(5040, factorials.nth(7).intValue());
 	}
 
+	@Test
+	public void testZeroAndOne() {
+		Factorials factorials = Factorials.getInstance();
+		assertEquals(1, factorials.nth(0).intValue());
+		assertEquals(1, factorials.nth(1).intValue());
+	}
 }

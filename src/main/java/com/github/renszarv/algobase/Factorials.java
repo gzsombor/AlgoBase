@@ -23,7 +23,7 @@ public class Factorials {
 
 	public BigInteger nth(int index) {
 		ensure(index);
-		return factorials.get(index - 1);
+		return (index <= 0) ? BigInteger.ONE : factorials.get(index - 1);
 	}
 
 	private static Factorials instance;
