@@ -2,9 +2,16 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.gzsombor</groupId>
   <artifactId>AlgoBase</artifactId>
-  <version>0.1</version>
+  <version>0.2</version>
   <name>AlgoBase</name>
   <description>Couple of useful graph, and combinatorial algorithm</description>
+  <inceptionYear>2013</inceptionYear>
+  <url>https://github.com/gzsombor/AlgoBase</url>
+
+  <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
   <dependencies>
   	<dependency>
   		<groupId>junit</groupId>
@@ -13,6 +20,17 @@
   		<scope>test</scope>
   	</dependency>
   </dependencies>
-  <inceptionYear>2013</inceptionYear>
-  <url>https://github.com/gzsombor/AlgoBase</url>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
