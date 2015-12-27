@@ -28,6 +28,9 @@ package com.github.renszarv.algobase;
 
 import org.junit.Test;
 import static org.junit.Assert.assertFalse;
+
+import java.util.Arrays;
+
 import static com.github.renszarv.algobase.TestUtils.check;
 
 public class FactorialNumberSystemTest {
@@ -49,6 +52,36 @@ public class FactorialNumberSystemTest {
 		check(p, 0, 1, 0);
 		check(p, 0, 0, 0);
 		assertFalse("no more, just 6", p.hasNext());
+	}
+
+	@Test
+	public void factorialNumbersOfSize3Skip1() {
+		FactorialIterator p = new FactorialIterator(3, 2);
+		check(p,  1, 2);
+		check(p,  0, 2);
+		check(p,  1, 1);
+		check(p,  0, 1);
+		check(p,  1, 0);
+		check(p,  0, 0);
+		assertFalse("no more, just 6", p.hasNext());
+	}
+
+	@Test
+	public void factorialNumbersOfMaximum4Length2() {
+		FactorialIterator p = new FactorialIterator(4, 2);
+		check(p,  2, 3);
+		check(p,  1, 3);
+		check(p,  0, 3);
+		check(p,  2, 2);
+		check(p,  1, 2);
+		check(p,  0, 2);
+		check(p,  2, 1);
+		check(p,  1, 1);
+		check(p,  0, 1);
+		check(p,  2, 0);
+		check(p,  1, 0);
+		check(p,  0, 0);
+		assertFalse("no more, just 12", p.hasNext());
 	}
 
 }

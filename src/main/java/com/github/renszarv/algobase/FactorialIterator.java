@@ -32,7 +32,7 @@ import java.util.Iterator;
 /**
  * Return all the factorial numbers in a descending order, for a given size.
  *  For example: 
- *  <code>
+ *  <pre>
  *    FactorialIterator f = new FactorialIterator(3);
  *    f.next() == [ 0, 1, 2]
  *    f.next() == [ 0, 0, 2]
@@ -40,22 +40,51 @@ import java.util.Iterator;
  *    f.next() == [ 0, 0, 1]
  *    f.next() == [ 0, 1, 0]
  *    f.next() == [ 0, 0, 0]
- *  </code>
+ *  </pre>
  *  
  *  This used to generate all the permutation. 
  *  More on factorial number system :
  *   http://en.wikipedia.org/wiki/Factorial_number_system
+ *  It is also possible to generate all permutation ending, where the length, and maximal number is different, for example:
+ *  
+ *   <pre>
+ *    FactorialIterator f = new FactorialIterator(4,2);
+ *    f.next() == [ 2, 3]
+ *    f.next() == [ 1, 3]
+ *    f.next() == [ 0, 3]
+ *    f.next() == [ 2, 2]
+ *    f.next() == [ 1, 2]
+ *    f.next() == [ 0, 2]
+ *    f.next() == [ 2, 1]
+ *    f.next() == [ 1, 1]
+ *    f.next() == [ 0, 1]
+ *    f.next() == [ 2, 0]
+ *    f.next() == [ 1, 0]
+ *    f.next() == [ 0, 0]
+ *  </pre>
  *  
  * @author zsombor
  * 
  */
 public class FactorialIterator implements Iterator<int[]> {
-	final int size;
-	BigInteger actual;
+	private final int maximum;
+	private final int skipLast;
+	private BigInteger actual;
 
-	public FactorialIterator(int size) {
-		this.size = size;
-		actual = Factorials.getInstance().nth(size).subtract(BigInteger.ONE);
+	public FactorialIterator(int maximum) {
+		this(maximum, maximum);
+	}
+
+	public FactorialIterator(int maximum, int length) {
+		if (length > maximum) {
+			throw new IllegalArgumentException("maximum >= length");
+		}
+		if (length < 0) {
+			throw new IllegalArgumentException("length < 0");
+		}
+		this.maximum = maximum;
+		this.skipLast = maximum - length;
+		actual = Factorials.getInstance().nth(maximum).subtract(BigInteger.ONE);
 	}
 
 	public boolean hasNext() {
@@ -63,7 +92,7 @@ public class FactorialIterator implements Iterator<int[]> {
 	}
 
 	public int[] next() {
-		int[] result = new int[size];
+		int[] result = new int[maximum - skipLast];
 		convertInto(result);
 		return result;
 	}
@@ -73,20 +102,20 @@ public class FactorialIterator implements Iterator<int[]> {
 	 * @param result
 	 */
 	public void getTheNext(int[] result) {
-		Utils.validateArrayLength(size, result);		
+		Utils.validateArrayLength(maximum - skipLast, result);		
 		convertInto(result);
 	}
 
 	protected synchronized void convertInto(int[] result) {
 		BigInteger current = actual;
 		Factorials f = Factorials.getInstance();
-		for (int i = size - 1; i >= 0; i--) {
+		for (int i = maximum - 1; i >= skipLast; i--) {
 			BigInteger nth = f.nth(i);
 			BigInteger[] divideAndRemainder = current.divideAndRemainder(nth);
-			result[i] = divideAndRemainder[0].intValue();
+			result[i- skipLast] = divideAndRemainder[0].intValue();
 			current = divideAndRemainder[1];
 		}
-		actual = actual.subtract(BigInteger.ONE);
+		actual = actual.subtract(f.nth(skipLast));
 	}
 
 	public void remove() {
